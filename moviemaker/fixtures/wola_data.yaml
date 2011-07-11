@@ -1,0 +1,63 @@
+- model: moviemaker.localization
+  pk: 1
+  fields:
+    name: Wola Gołkowska
+    slug: wola_golkowska
+    timezone: 'Europe/Warsaw' 
+- model: moviemaker.cameramodel
+  pk: 1
+  fields:
+    name: Edimax IC-1500
+    slug: edimax_ic_1500
+    file2date_regexp: 'motion-(?P<year>\d+)-(?P<month>\d+)-(?P<day>\d+)-(?P<hour>\d+)-(?P<min>\d+)-(?P<sec>\d+)'
+- model: moviemaker.cameramodel
+  pk: 2
+  fields:
+    name: iGuard IP-250E Hardware Version HCV72
+    slug: iguard_ip_250e_hcv72 
+    file2date_regexp: '(?P<year>\d{2})_(?P<month>\d{2})(?P<day>\d{2})_(?P<hour>\d{2})(?P<min>\d{2})(?P<sec>\d{2})'
+- model: moviemaker.cameramodel
+  pk: 3
+  fields:
+    name: iGuard IP-310E
+    slug: iguard_ip_310Ee
+    file2date_regexp: '(?P<year>\d{2})_(?P<month>\d{2})(?P<day>\d{2})_(?P<hour>\d{2})(?P<min>\d{2})(?P<sec>\d{2})'
+- model: moviemaker.cameramodel
+  pk: 4
+  fields:
+    name: iGuard IP-320E Hardware Version – HCV91
+    slug: iguard_ip_320e_hcv91
+    file2date_regexp: '(?P<year>\d{2})_(?P<month>\d{2})(?P<day>\d{2})_(?P<hour>\d{2})(?P<min>\d{2})(?P<sec>\d{2})'
+#- model: moviemaker.cameramodel
+#  pk: 5
+#  fields:
+#    name: IPCamera_VS-IPC1002 
+#    slug: ipcamera_vs_ipc1002
+#    file2date_regexp: 
+- model: moviemaker.camera
+  pk: 1
+  fields:
+    localization: 1
+    model: 1
+    name: cam75
+    slug: cam75
+    home_dir: '/home/cam75'
+    cache_dir: 'cam75cache' 
+- model: moviemaker.camera
+  pk: 2
+  fields:
+    localization: 1
+    model: 2
+    name: cam82
+    slug: cam82
+    home_dir: '/home/cam82'
+    cache_dir: 'cam82cache' 
+- model: moviemaker.camera
+  pk: 3
+  fields:
+    localization: 1
+    model: 3
+    name: cam97
+    slug: cam97
+    home_dir: '/home/cam97'
+    cache_dir: 'cam97cache' 

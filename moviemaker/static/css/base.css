@@ -1,0 +1,76 @@
+body {
+  background-color:#fff;	
+  font-family:"Lucida Grande","bitstream vera sans","trebuchet ms",verdana,arial;
+  text-align:center;
+}
+
+#page {
+  background-color:#efefef;
+  width:650px;
+  margin:50px auto;
+  padding:20px 50px;
+  min-height:600px;
+  border:2px solid #fff;
+  outline:1px solid #ccc;
+  text-align:left;
+}
+
+h1, h2 {
+  letter-spacing:-1px;
+  color:#2D5AC3;
+  font-weight:normal;		
+/*  margin-bottom:-10px;*/
+}
+
+h1 {
+  font-size:22px;
+}
+
+h2 {
+  font-size:18px;
+}
+
+.less {
+  color:#999;
+  font-size:12px;
+}
+
+a {
+  color:#295c72;		
+}
+
+#player-div{
+  padding:20px 0;
+}
+
+#player{
+  width:320px;
+  height:240px;
+  float:left;
+}
+
+#frames-list{
+  width:200px;
+  margin:0 0 0 340px;
+  background:#fff;
+  list-style: none;
+}
+
+#frames-list li{
+  cursor:pointer;
+}
+
+#frames-list .mover{
+  color:#B8B8B8;
+}
+
+#frames-list .current{
+  color:#FF0000;
+}
+
+/*datetime picker*/
+.ui-timepicker-div .ui-widget-header{ margin-bottom: 8px; }
+.ui-timepicker-div dl{ text-align: left; }
+.ui-timepicker-div dl dt{ height: 25px; }
+.ui-timepicker-div dl dd{ margin: -25px 0 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }

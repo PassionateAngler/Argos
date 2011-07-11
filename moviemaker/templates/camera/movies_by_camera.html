@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{camera.name}} moviecache listing{% endblock %}
+{% block body %}
+  <h1>Avaible movies for camera {{camera.name}}</h1>
+  <p>
+  <h1>{{ queries|length }}</h1>
+    <ul>
+      {% for movie in movie_list %}
+      <li>{{ movie.start|date:"Y-m-d H:i:s" }} to 
+      {{ movie.end|date:"Y-m-d H:i:s" }}
+      <ul>
+      {% for m_slice in movie.slices %}
+        <li>from: {{ m_slice.first.imagefile.date|date:"Y-m-d H:i:s" }}
+        to: {{ m_slice.last.imagefile.date|date:"Y-m-d H:i:s"}}<br />
+        number of frames: {{ m_slice.slices|length }} 
+        </li>
+      {% endfor %}
+      </ul>
+      </li> 
+      {% endfor %}
+    </ul> 
+  <h1>{{ queries|length }}</h1>
+  </p>
+{% endblock %}

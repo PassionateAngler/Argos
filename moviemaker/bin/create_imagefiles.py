@@ -2,6 +2,7 @@
 import sys
 import os
 import re
+import subprocess
 from datetime import datetime as dt
 import pytz
 dir = os.path.dirname(__file__)
@@ -12,12 +13,17 @@ from moviemaker.models import *
 
 def imagefiles_insert_sql_query(cameras):
     query_string = r"""INSERT INTO moviemaker_imagefile
-    (camera_id,path,date) VALUES %s;"""
+    (camera_id,path,_date) VALUES %s;"""
     values_list = [] 
     for camera in cameras:
         try:
             for img in os.listdir(camera.home_dir):
-                img_path = camera.home_dir+'/'+img
+                img_path = os.path.join(camera.home_dir,img)
+                #do not put image into db if it is empty
+                if os.path.getsize(img_path) < ImageFile.MIN_SIZE:
+                    print "ERROR:%s has %d bytes. Skiping..."%(img_path,\
+                            os.path.getsize(img_path))
+                    continue
                 m = re.match(camera.model.file2date_regexp,img)
                 try:
                     year = int(m.group('year'))
@@ -31,7 +37,8 @@ def imagefiles_insert_sql_query(cameras):
                     values_list.append(r"(%d,'%s','%s')"%(camera.id,img_path,file_time))                  
                 except AttributeError:
                     pass
-        except OSError:
+        except OSError, (errno, strerror):
+            print strerror
             print "Directory %s does not exist."%camera.home_dir
     return query_string%",".join(values_list)
 
@@ -41,6 +48,7 @@ def main():
     from django.conf import settings
 
     cameras = Camera.objects.all()
+    ImageFile.objects.all().delete()
     sql =  imagefiles_insert_sql_query(cameras)
     cursor = connection.cursor()
     cursor.execute(sql)

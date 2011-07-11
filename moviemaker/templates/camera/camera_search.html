@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}{{ camera.name }} movie search form {% endblock %}
+{% block body %}
+  <h1>Search for movies from {{camera.name}}</h1>
+  <h2>Localization: {{ camera.localization.name }} ( Time Zone {{ camera.localization.timezone }} )</h2>
+  {% if form.errors %}
+  <p style="color: red;">
+  Please correct the error{{ form.errors|pluralize }} below.
+  </p>
+  {% endif %}
+  <form action="search" method='GET'>
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+  </form>
+  {% block movieplayer %}{% endblock %}
+{% endblock %}

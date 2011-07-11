@@ -1,0 +1,93 @@
+{% extends "camera/camera_search.html" %}
+{% block movieplayer %}
+<div id="player-div">
+  {% if movie %}
+  <div id="player"></div>
+  <ul id="frames-list">
+    {% for frame in frames %}
+    <li id="sec-{{ forloop.counter0 }}">
+      {{ frame.imagefile.date_localized|date:"H:i:s d M Y" }}
+    </li>
+    {% endfor %}
+  </ul>
+  <script>
+    {% url moviemaker.views.moviecachefile_subtitles  movie.id start_cc  end_cc as subtitles_url %}
+    var player = flowplayer("player", {
+      src:"{{ STATIC_URL }}/swf/flowplayer-3.2.7.swf",
+      wmode: "transparent"},
+    {clip:{
+        url:"{{ moviecache_url }}/{{ camera.cache_dir }}/{{ movie.path }}",
+        captionUrl: '{{ subtitles_url }}',
+        autoPlay: false,
+        provider: 'lighttpd',
+        autoBuffering: true,
+        start: {{ start }},
+        duration: {{ frames.count }},
+        onSeek:function(clip,time){
+          $("#frames-list .current").each(
+            function(index){$(this).removeClass("current")}
+          ) 
+        },
+        onCuepoint:[ {{ cuepoints }},
+        function(clip,cuepoint){
+          $("#sec-"+(cuepoint/1000 - 1)).removeClass("current");
+          $("#sec-"+cuepoint/1000).addClass("current");
+        } ]
+    },
+      plugins: {
+        captions: {
+          url: '{{ STATIC_URL }}/swf/flowplayer.captions-3.2.3.swf',
+        	captionTarget: 'content'
+        },
+        content: {
+          url:'{{ STATIC_URL }}/swf/flowplayer.content-3.2.0.swf',
+          top: 10,
+          width: '80%',
+          height:40,
+          backgroundColor: 'transparent',
+          backgroundGradient: 'none',
+          border: 0,
+          // an outline is useful so that the subtitles are more visible
+          textDecoration: 'outline',
+          style: {
+            'body': {
+                fontSize: '14',
+                fontFamily: 'Arial',
+                textAlign: 'center',
+                color: '#ffffff'
+            }
+          }
+        },
+        lighttpd: {
+          url: '{{ STATIC_URL }}/swf/flowplayer.pseudostreaming-byterange-3.2.7.swf'
+        }
+      }
+  });
+  $("#frames-list li").mouseover(function(){$(this).addClass("mover")});
+  $("#frames-list li").mouseout(function(){$(this).removeClass("mover")});
+  $("#frames-list li").click(
+  function(){
+    var sec = $(this).attr("id").split("-")[1];
+    //$(this).addClass("current");
+    $f().seek(sec);
+  }
+  );
+  </script>
+  {% else %}
+  <h2>No movie from given range.</h2>
+    {%if cl_slices %}
+    <h2>Closest possible movies:</h2>
+    <ul>
+    {% for slice in cl_slices %}
+    <li>
+    {% url moviemaker.views.camera_search camera.slug as search_url %}
+    <a href="{{ search_url }}?start={{slice.first|urlencode }}">
+      {{slice.first}} duration: {{slice.len}}s
+    </a>
+    </li>
+    {% endfor %} 
+    </ul>
+    {%endif%}
+  {% endif %}
+</div>
+{% endblock %}

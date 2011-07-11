@@ -1,0 +1,12 @@
+Sorry but only documentation for this application is The Code, of course it will change in nearest future;)
+This application were created for purpose of browsing images which comes from ip-cameras.
+There is a bunch of scripts in moviemaker/bin for managing entries about images and movies from all cameras.
+Every Camera object in db holds information about image file and time of creation of this image.
+ImageFiles are periodical (or on demand)  cached into .flv movie files. 
+Information about this movies are hold in MovieCacheFile db objects. 
+For more information please examine:
+moviemaker/urls.py
+moviemaker/models.py
+moviemaker/views.py
+
+Please take under consideration that this app is still in development:) 
